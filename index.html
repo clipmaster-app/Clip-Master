@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClipMaster - Edit like a Director</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #0f172a;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    canvas#particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .navbar-section {
+      background: #1e293b;
+      border-bottom: 2px solid #334155;
+      padding: 10px 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 999;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    nav a {
+      color: #cbd5e1;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 5px 10px;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: gold;
+    }
+
+    #countdown-timer {
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: gold;
+      background-color: #1e293b;
+      padding: 5px 0;
+      margin-top: 60px;
+    }
+
+    header {
+      text-align: center;
+      padding: 150px 20px 20px;
+    }
+
+    header img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: white;
+      padding: 6px;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+    }
+
+    header h2 {
+      margin-top: 10px;
+      font-size: 1.2rem;
+      color: #e2e8f0;
+    }
+
+    header h1 {
+      margin-top: 5px;
+      font-size: 2.5rem;
+      background: linear-gradient(to right, gold, white, gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: bold;
+    }
+
+    .btn-download {
+      display: inline-block;
+      background: linear-gradient(45deg, gold, white, gold);
+      color: #1e293b;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 0 15px gold;
+      margin-top: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .btn-download:hover {
+      transform: scale(1.05);
+    }
+
+    #game-btn {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: #2563eb;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 10px #2563eb;
+    }
+
+    .social-section {
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .social-section h2 {
+      font-size: 1.8rem;
+      color: gold;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .social-icons a {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #1e293b;
+      padding: 10px 20px;
+      border-radius: 10px;
+      color: white;
+      font-weight: bold;
+      text-decoration: none;
+      transition: transform 0.3s ease;
+    }
+
+    .social-icons a:hover {
+      transform: scale(1.05);
+      background: #334155;
+    }
+
+    .social-icons img {
+      width: 24px;
+      height: 24px;
+    }
+
+    #features {
+      padding: 100px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    #features h2 {
+      color: gold;
+      font-size: 2rem;
+      text-align: center;
+    }
+
+    #features ul {
+      margin-top: 20px;
+      line-height: 1.8;
+      column-count: 2;
+      column-gap: 40px;
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    #features ul li::before {
+      content: '✨ ';
+      color: gold;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles"></canvas>
+
+  <section class="navbar-section">
+    <nav>
+      <a href="#features">108 Features</a>
+      <a href="#social">Social Media</a>
+      <a href="#ask">Ask Owner</a>
+    </nav>
+  </section>
+
+  <div id="countdown-timer"></div>
+
+  <header>
+    <img src="icon_app.jpg" alt="ClipMaster Logo" />
+    <h2>It is an AI-powered tool which helps creators make their content attractive using 108 features</h2>
+    <h1>Edit like a director</h1>
+    <a class="btn-download" href="#download">Download .APK</a>
+  </header>
+
+  <section id="social" class="social-section">
+    <h2>Follow Us on Social Media</h2>
+    <div class="social-icons">
+      <a href="https://instagram.com/clipmaster_app" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">Instagram
+      </a>
+      <a href="https://facebook.com" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">Facebook
+      </a>
+      <a href="https://youtube.com/ClipMaster-freeeditingapp" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">YouTube
+      </a>
+      <a href="https://t.me/clipmaster_ug" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram">Telegram
+      </a>
+    </div>
+  </section>
+
+  <section id="features">
+    <h2>108 Features of ClipMaster</h2>
+    <ul>
+      <li>Auto Scene Detection</li>
+      <li>Beat Sync with Music</li>
+      <li>AI Location Suggestion</li>
+      <li>Smart Crop for Shorts</li>
+      <li>Social Platform Optimizer</li>
+      <li>Face Tracking</li>
+      <li>AI Script Generator</li>
+      <li>Background Blur</li>
+      <li>Auto Subtitles</li>
+      <li>Remove Background</li>
+      <li>Slow Motion FX</li>
+      <li>Reverse Playback</li>
+      <li>Chroma Key (Green Screen)</li>
+      <li>Multi-layer Editing</li>
+      <li>Voice Enhancer</li>
+      <li>Voice to Text</li>
+      <li>Text to Voice</li>
+      <li>Royalty-free Music</li>
+      <li>Sound FX Library</li>
+      <li>Noise Reduction</li>
+      <li>Video Stabilization</li>
+      <li>Auto Color Correction</li>
+      <li>AI Color Grading</li>
+      <li>Object Tracking</li>
+      <li>One Tap Filters</li>
+      <li>Motion Graphics Templates</li>
+      <li>Scene-by-Scene Storyboard</li>
+      <li>Dynamic Transitions</li>
+      <li>Trending Reel Presets</li>
+      <li>AI Caption Styles</li>
+      <li>Thumbnail Generator</li>
+      <li>Batch Exporting</li>
+      <li>Auto Reframe for All Ratios</li>
+      <li>Speed Ramping</li>
+      <li>AI Emotion Detection</li>
+      <li>Clip Trimmer</li>
+      <li>One-Tap Auto Edit</li>
+      <li>Video Compressor</li>
+      <li>Quality Enhancer</li>
+      <li>3D Text</li>
+      <li>Motion Tracking Text</li>
+      <li>Face Blur</li>
+      <li>AI Voice Cloning</li>
+      <li>Live Camera Filters</li>
+      <li>Gesture-based Cut</li>
+      <li>Shot Suggestions</li>
+      <li>AI B-Roll Picker</li>
+      <li>Emotion-based Music Suggestion</li>
+      <li>Audio Ducking</li>
+      <li>On-Device Rendering</li>
+      <li>AI-based Video Summarizer</li>
+      <li>GIF Export</li>
+      <li>1080p/4K Output</li>
+      <li>One-Click Social Upload</li>
+      <li>Multi-Camera Sync</li>
+      <li>Storyboard to Edit Flow</li>
+      <li>AI Actor Masking</li>
+      <li>Motion Poster Creator</li>
+      <li>AI Eye Contact Correction</li>
+      <li>Light Leaks</li>
+      <li>LUTs Integration</li>
+      <li>Color Isolation</li>
+      <li>Export to Cloud</li>
+      <li>QR Share for Projects</li>
+      <li>Auto Highlight Picker</li>
+      <li>Shape Masking</li>
+      <li>Smart Zoom</li>
+      <li>Dynamic Typography</li>
+      <li>Character Animation</li>
+      <li>AI Voice Sync for Dubs</li>
+      <li>Face Retouching</li>
+      <li>Brightness/Contrast Auto Adjust</li>
+      <li>Live Webcam Insert</li>
+      <li>Interactive Stickers</li>
+      <li>Quick Meme Templates</li>
+      <li>Voice Changer</li>
+      <li>Project Timeline Auto Save</li>
+      <li>Import from Drive/Cloud</li>
+      <li>AI Object Remover</li>
+      <li>One Tap Vlog Editor</li>
+      <li>Green Screen Alternatives</li>
+      <li>Hologram FX</li>
+      <li>Time Freeze FX</li>
+      <li>360 Video Support</li>
+      <li>Split Screen Generator</li>
+      <li>3D LUT Preview</li>
+      <li>VHS FX</li>
+      <li>Live Emoji Reactions</li>
+      <li>Speech Animation</li>
+      <li>AI Emotion FX</li>
+      <li>Project Backup System</li>
+      <li>Offline Mode Support</li>
+      <li>Project Collaboration</li>
+      <li>Custom Intro Builder</li>
+      <li>Glitch FX</li>
+      <li>Beat Marker Tool</li>
+      <li>AI Facial Morph</li>
+      <li>Vocal Isolator</li>
+      <li>Aspect Ratio Templates</li>
+      <li>One Tap Reels</li>
+      <li>Noise Visualizer</li>
+      <li>Loop Maker</li>
+      <li>Video Overlay Effects</li>
+      <li>One-Tap Trailer Creator</li>
+      <li>Reel Timing Guide</li>
+      <li>AI Feedback Assistant</li>
+      <li>Hashtag Generator</li>
+      <li>Title Animation Templates</li>
+      <li>AI Title Writer</li>
+    </ul>
+  </section>
+
+  <button id="game-btn">🎮 Play a Game</button>
+
+  <script>
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    let particlesArray = [];
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 1;
+        this.speedY = Math.random() * 1 + 0.5;
+        this.color = `rgba(255, 255, 255, ${Math.random()})`;
+      }
+      update() {
+        this.y += this.speedY;
+        if (this.y > canvas.height) {
+          this.y = 0;
+          this.x = Math.random() * canvas.width;
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      particlesArray = [];
+      for (let i = 0; i < 150; i++) {
+        particlesArray.push(new Particle());
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particlesArray.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+
+    initParticles();
+    animateParticles();
+
+    function updateCountdown() {
+      const launchDate = new Date("July 15, 2025 00:00:00").getTime();
+      const now = new Date().getTime();
+      const distance = launchDate - now;
+
+      if (distance < 0) {
+        document.getElementById("countdown-timer").innerText = "🎉 ClipMaster is now launched!";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("countdown-timer").innerText = `🚀 Launching in ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
+
+  <!-- Ask a Question Section with Rocket Smoke Animation -->
+<section id="ask" style="padding: 100px 20px; background: #1e293b; text-align: center;">
+  <h2 style="color: gold; font-size: 2rem;">Ask a Question</h2>
+  <p style="color: #cbd5e1; margin-top: 10px;">We'd love to hear from you! Fill out the form below.</p>
+
+  <form id="ask-form" action="https://formspree.io/f/myzjbaop" method="POST" style="margin-top: 30px; max-width: 500px; margin-inline: auto;">
+    <input type="text" name="name" id="ask-name" placeholder="Your Name" required
+      style="width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; font-size: 1rem; border: none;" />
+    <input type="email" name="email" id="ask-email" placeholder="Your Email" required
+      style="width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; font-size: 1rem; border: none;" />
+    <textarea name="message" id="ask-question" placeholder="Type your question..." required
+      style="width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; font-size: 1rem; height: 120px; border: none;"></textarea>
+
+    <div style="position: relative; display: inline-block;">
+      <button type="submit" id="ask-send-btn"
+        style="background: linear-gradient(45deg, gold, white); color: #1e293b; font-weight: bold; padding: 12px 30px; border-radius: 10px; font-size: 1.1rem; cursor: pointer; border: none; position: relative; z-index: 1;">
+        Send Message
+      </button>
+      <span id="ask-rocket"
+        style="position: absolute; left: 50%; bottom: 0px; font-size: 28px; transform: translateX(-50%); opacity: 0; transition: transform 2s ease-out, opacity 1s;">🚀</span>
+      <div id="ask-smoke-container"
+        style="position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); pointer-events: none;"></div>
+    </div>
+  </form>
+</section>
+
+<script>
+  const askForm = document.getElementById('ask-form');
+  const rocket = document.getElementById('ask-rocket');
+  const smokeContainer = document.getElementById('ask-smoke-container');
+
+  askForm.addEventListener('submit', function (e) {
+    const name = document.getElementById('ask-name').value.trim();
+    const email = document.getElementById('ask-email').value.trim();
+    const question = document.getElementById('ask-question').value.trim();
+
+    if (!(name && email && question)) {
+      e.preventDefault();
+      alert("Please fill out all fields before sending.");
+      return;
+    }
+
+    // Animate rocket & smoke
+    rocket.style.opacity = '1';
+    rocket.style.transform = 'translate(-50%, -400px) rotate(-20deg)';
+
+    for (let i = 0; i < 20; i++) {
+      const smoke = document.createElement('span');
+      smoke.innerText = '💨';
+      smoke.style.position = 'absolute';
+      smoke.style.left = (50 + Math.random() * 20 - 10) + '%';
+      smoke.style.bottom = '0px';
+      smoke.style.fontSize = (12 + Math.random() * 10) + 'px';
+      smoke.style.opacity = '1';
+      smoke.style.transition = 'all 2s ease-out';
+      smokeContainer.appendChild(smoke);
+
+      setTimeout(() => {
+        smoke.style.bottom = '50px';
+        smoke.style.opacity = '0';
+      }, 10);
+
+      setTimeout(() => {
+        smoke.remove();
+      }, 2000);
+    }
+
+    setTimeout(() => {
+      rocket.style.opacity = '0';
+    }, 2000);
+  });
+</script>
+
+ 
+</body>
+</html>
+
