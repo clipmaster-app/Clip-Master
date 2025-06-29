@@ -347,7 +347,9 @@
     </ul>
   </section>
 
-  <button id="game-btn">🎮 Play a Game</button>
+  <!-- Game Button -->
+<button onclick="window.open('game.html', '_blank')">🎮 Play Game</button>
+
 
   <script>
     const canvas = document.getElementById("particles");
@@ -497,120 +499,6 @@
       rocket.style.opacity = '0';
     }, 2000);
   });
-</script>
-<!-- Full Screen Dino Game Section -->
-<div id="game-section" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#0f172a; z-index:1000; justify-content:center; align-items:center; flex-direction:column;">
-  <button onclick="closeGame()" style="position:absolute; top:20px; right:20px; background:red; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer;">✖ Close</button>
-  <canvas id="dinoGame" width="800" height="200" style="background:white; border-radius:12px;"></canvas>
-  <div id="score-board" style="margin-top: 20px; color: white; font-size: 20px;">Score: <span id="score">0</span></div>
-  <button id="retry-btn" onclick="startDinoGame()" style="margin-top: 20px; display:none; background:gold; color:black; padding:10px 25px; border:none; font-size:1rem; border-radius:10px; font-weight:bold;">🔁 Retry</button>
-</div>
-
-<script>
-  const gameBtn = document.getElementById('game-btn');
-  const gameSection = document.getElementById('game-section');
-  const retryBtn = document.getElementById('retry-btn');
-  const scoreText = document.getElementById('score');
-
-  let canvas, ctx, dino, cactus, gravity = 0.6, gameId, score = 0, gameOver = false;
-
-  gameBtn.addEventListener('click', () => {
-    gameSection.style.display = 'flex';
-    startDinoGame();
-  });
-
-  function closeGame() {
-    gameSection.style.display = 'none';
-    cancelAnimationFrame(gameId);
-    resetGame();
-  }
-
-  function startDinoGame() {
-    retryBtn.style.display = 'none';
-    score = 0;
-    scoreText.innerText = '0';
-    gameOver = false;
-
-    canvas = document.getElementById('dinoGame');
-    ctx = canvas.getContext('2d');
-
-    dino = {
-      x: 50,
-      y: 150,
-      width: 30,
-      height: 30,
-      dy: 0,
-      jumpPower: -12,
-      grounded: true
-    };
-
-    cactus = {
-      x: 800,
-      y: 150,
-      width: 20,
-      height: 40,
-      speed: 6
-    };
-
-    document.onkeydown = function (e) {
-      if (e.code === 'Space' && dino.grounded && !gameOver) {
-        dino.dy = dino.jumpPower;
-        dino.grounded = false;
-      }
-    };
-
-    updateGame();
-  }
-
-  function updateGame() {
-    gameId = requestAnimationFrame(updateGame);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Dino gravity
-    dino.dy += gravity;
-    dino.y += dino.dy;
-    if (dino.y >= 150) {
-      dino.y = 150;
-      dino.dy = 0;
-      dino.grounded = true;
-    }
-    ctx.fillStyle = '#0f172a';
-    ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
-
-    // Cactus
-    cactus.x -= cactus.speed;
-    if (cactus.x < -cactus.width) {
-      cactus.x = canvas.width + Math.random() * 200;
-      if (!gameOver) {
-        score++;
-        scoreText.innerText = score;
-      }
-    }
-    ctx.fillStyle = 'green';
-    ctx.fillRect(cactus.x, cactus.y, cactus.width, cactus.height);
-
-    // Collision
-    if (
-      dino.x < cactus.x + cactus.width &&
-      dino.x + dino.width > cactus.x &&
-      dino.y < cactus.y + cactus.height &&
-      dino.y + dino.height > cactus.y
-    ) {
-      cancelAnimationFrame(gameId);
-      ctx.fillStyle = 'red';
-      ctx.font = '30px Arial';
-      ctx.fillText('💥 Game Over! Your Score: ' + score, 220, 100);
-      retryBtn.style.display = 'inline-block';
-      gameOver = true;
-    }
-  }
-
-  function resetGame() {
-    retryBtn.style.display = 'none';
-    gameOver = false;
-    score = 0;
-    scoreText.innerText = '0';
-  }
 </script>
 
  
