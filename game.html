@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fruit Catcher Game</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+      background: url('bg.jpg') no-repeat center center;
+      background-size: cover;
+    }
+    #retryBtn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: gold;
+      color: #1e293b;
+      padding: 15px 30px;
+      font-size: 1.5rem;
+      border: none;
+      border-radius: 10px;
+      display: none;
+      cursor: pointer;
+    }
+    #scoreBoard {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+      text-shadow: 1px 1px 2px black;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+  <div id="scoreBoard">Score: 0</div>
+  <button id="retryBtn">Retry</button>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const scoreBoard = document.getElementById('scoreBoard');
+    const retryBtn = document.getElementById('retryBtn');
+
+    const basketImg = new Image();
+    basketImg.src = 'basket.png';
+    const fruitImg = new Image();
+    fruitImg.src = 'apple.png';
+
+    let basket = {
+      x: canvas.width / 2 - 50,
+      y: canvas.height - 100,
+      width: 100,
+      height: 70,
+      speed: 10
+    };
+
+    let fruits = [];
+    let score = 0;
+    let gameOver = false;
+
+    function spawnFruit() {
+      const x = Math.random() * (canvas.width - 40);
+      fruits.push({ x: x, y: -40, width: 40, height: 40, speed: 3 + Math.random() * 2 });
+    }
+
+    function drawBasket() {
+      ctx.drawImage(basketImg, basket.x, basket.y, basket.width, basket.height);
+    }
+
+    function drawFruits() {
+      fruits.forEach(fruit => {
+        ctx.drawImage(fruitImg, fruit.x, fruit.y, fruit.width, fruit.height);
+      });
+    }
+
+    function updateFruits() {
+      fruits.forEach((fruit, index) => {
+        fruit.y += fruit.speed;
+
+        // Catch check
+        if (
+          fruit.y + fruit.height > basket.y &&
+          fruit.x + fruit.width > basket.x &&
+          fruit.x < basket.x + basket.width
+        ) {
+          score++;
+          fruits.splice(index, 1);
+        }
+
+        // Missed
+        else if (fruit.y > canvas.height) {
+          gameOver = true;
+        }
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawBasket();
+      drawFruits();
+      scoreBoard.textContent = 'Score: ' + score;
+    }
+
+    function gameLoop() {
+      if (!gameOver) {
+        updateFruits();
+        draw();
+        requestAnimationFrame(gameLoop);
+      } else {
+        retryBtn.style.display = 'block';
+      }
+    }
+
+    // Controls
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') {
+        basket.x -= basket.speed;
+        if (basket.x < 0) basket.x = 0;
+      } else if (e.key === 'ArrowRight') {
+        basket.x += basket.speed;
+        if (basket.x + basket.width > canvas.width) basket.x = canvas.width - basket.width;
+      }
+    });
+
+    // Retry
+    retryBtn.addEventListener('click', () => {
+      fruits = [];
+      score = 0;
+      gameOver = false;
+      retryBtn.style.display = 'none';
+      gameLoop();
+    });
+
+    // Spawn fruits every second
+    setInterval(() => {
+      if (!gameOver) spawnFruit();
+    }, 1000);
+
+    // Music (optional)
+    const bgMusic = new Audio('music.mp3');
+    bgMusic.loop = true;
+    bgMusic.volume = 0.4;
+    bgMusic.play().catch(() => {
+      // Music will start after user interaction
+    });
+
+    // Start game
+    gameLoop();
+  </script>
+</body>
+</html>
+
+
+
+     
+      
+    
