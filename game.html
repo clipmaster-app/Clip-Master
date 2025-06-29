@@ -43,12 +43,14 @@
   <canvas id="gameCanvas" width="800" height="600"></canvas>
   <div id="scoreBoard">Score: 0</div>
   <button id="retryBtn">Retry</button>
+  <audio id="bg-music" src="music.mp3" loop></audio>
 
   <script>
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     const scoreBoard = document.getElementById('scoreBoard');
     const retryBtn = document.getElementById('retryBtn');
+    const bgMusic = document.getElementById('bg-music');
 
     const basketImg = new Image();
     basketImg.src = 'basket.png';
@@ -85,8 +87,6 @@
     function updateFruits() {
       fruits.forEach((fruit, index) => {
         fruit.y += fruit.speed;
-
-        // Catch check
         if (
           fruit.y + fruit.height > basket.y &&
           fruit.x + fruit.width > basket.x &&
@@ -94,10 +94,7 @@
         ) {
           score++;
           fruits.splice(index, 1);
-        }
-
-        // Missed
-        else if (fruit.y > canvas.height) {
+        } else if (fruit.y > canvas.height) {
           gameOver = true;
         }
       });
@@ -120,7 +117,6 @@
       }
     }
 
-    // Controls
     document.addEventListener('keydown', e => {
       if (e.key === 'ArrowLeft') {
         basket.x -= basket.speed;
@@ -131,7 +127,6 @@
       }
     });
 
-    // Retry
     retryBtn.addEventListener('click', () => {
       fruits = [];
       score = 0;
@@ -140,27 +135,26 @@
       gameLoop();
     });
 
-    // Spawn fruits every second
     setInterval(() => {
       if (!gameOver) spawnFruit();
     }, 1000);
 
-    // Music (optional)
-    const bgMusic = new Audio('music.mp3');
-    bgMusic.loop = true;
-    bgMusic.volume = 0.4;
-    bgMusic.play().catch(() => {
-      // Music will start after user interaction
-    });
+    function startGameExtras() {
+      if (document.fullscreenElement == null) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+      if (bgMusic.paused) {
+        bgMusic.play().catch(() => {});
+      }
 
-    // Start game
+      document.removeEventListener('click', startGameExtras);
+      document.removeEventListener('touchstart', startGameExtras);
+    }
+
+    document.addEventListener('click', startGameExtras);
+    document.addEventListener('touchstart', startGameExtras);
+
     gameLoop();
   </script>
 </body>
 </html>
-
-
-
-     
-      
-    
